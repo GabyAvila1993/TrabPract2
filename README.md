@@ -14,6 +14,15 @@ Este proyecto es un sistema de ventas desarrollado con una arquitectura cliente-
 
 ---
 
+## Aportes del equipo
+
+| Integrante          |               Tareas realizadas                        |
+|---------------------|--------------------------------------------------------|
+| Tomás Muñoz         | Desarrollo del backend (APIs clientes, productos)      |
+| Gabriel Avila       | Desarrollo del frontend (componentes React, rutas)     |
+| Esteban Sabatini    | Diseño e implementación de estilos CSS                 |
+| Martín Mamaní       | Pruebas, documentación y despliegue                    |
+
 ## Estructura del proyecto
 
 ### Backend
@@ -153,7 +162,10 @@ model VentaProducto {
 ### Backend
 
 1. Clonar el repositorio.
-2. Crear archivo `.env` con la variable `DATABASE_URL` apuntando a tu base de datos MySQL.
+2. Crear archivo `.env` con la variable `DATABASE_URL` apuntando a tu base de datos MySQL usando 
+DATABASE_URL="mysql://usuario:password@localhost:3306/sistema_ventas"
+PORT=4000
+cambiar usuario y password en caso de tener la base de datos diferente
 3. Ejecutar migraciones con Prisma: `npx prisma migrate dev`
 4. Iniciar servidor: `node server.js` (o con nodemon)
 
