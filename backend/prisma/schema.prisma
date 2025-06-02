@@ -1,0 +1,80 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Proveedor {
+  id         Int        @id @default(autoincrement())
+  dni        String     @unique
+  nombre     String
+  direccion  String
+  telefono   String
+  web        String
+  productos  Producto[]
+}
+
+model Cliente {
+  id        Int      @id @default(autoincrement())
+  dni       String   @unique
+  nombre    String
+  calle     String
+  numero    String
+  localidad    String
+  telefonos Telefono[]    // No poner onDelete aquí
+  ventas    Venta[]       // No poner onDelete aquí
+}
+
+
+model Telefono {
+  id        Int     @id @default(autoincrement())
+  numero    String
+  clienteId Int
+  cliente   Cliente @relation(fields: [clienteId], references: [id], onDelete: Cascade)  // Aquí sí
+}
+
+
+model Producto {
+  id           Int       @id @default(autoincrement())
+  nombre       String
+  precio       Float
+  stock        Int
+  categoriaId  Int
+  proveedorId  Int
+  categoria    Categoria @relation(fields: [categoriaId], references: [id])
+  proveedor    Proveedor @relation(fields: [proveedorId], references: [id])
+  ventas       VentaProducto[]
+}
+
+model Categoria {
+  id          Int        @id @default(autoincrement())
+  nombre      String
+  descripcion String
+  productos   Producto[]
+}
+
+
+model Venta {
+  id         Int      @id @default(autoincrement())
+  fecha      DateTime
+  clienteId  Int
+  descuento  Float
+  montoFinal Float
+  cliente    Cliente  @relation(fields: [clienteId], references: [id], onDelete: Cascade)  // Aquí sí
+  productos  VentaProducto[]
+}
+
+
+model VentaProducto {
+  id          Int      @id @default(autoincrement())
+  productoId  Int
+  ventaId     Int
+  precioVenta Float
+  cantidad    Int
+  subtotal    Float
+  producto    Producto @relation(fields: [productoId], references: [id], onDelete: Cascade)
+  venta       Venta    @relation(fields: [ventaId], references: [id], onDelete: Cascade)     
+}
